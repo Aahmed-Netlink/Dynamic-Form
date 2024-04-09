@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, } from "react";
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 
@@ -10,18 +10,42 @@ import { v4 as uuidv4 } from "uuid"
 import Modal from "./Components/DialogModal/Modal";
 import InputLabel from "./Components/InformationComponent/InputLabel";
 import InputPlaceHolder from "./Components/InformationComponent/InputPlaceHolder";
-import AddDynamicInputFields from "./Components/InformationComponent/AddDynamicInputFields";
-import { ItemType } from "./Components/ItemType";
+import AddOptions from "./Components/InformationComponent/AddOptions";
+import Addpoints from "./Components/InformationComponent/Addpoints";
 
 function App() {
 
   const [drag, setDrag] = useState([
     {
+      componentType: "calander",
+      id: uuidv4(),
+    },
+    {
+      componentType: "checkbox",
+      id: uuidv4(),
+    },
+    {
+      componentType: "date Picker",
+      id: uuidv4(),
+    },
+    {
+      componentType: "dropdown",
+      id: uuidv4(),
+    },
+    {
       componentType: "input",
       id: uuidv4(),
     },
     {
-      componentType: "textarea",
+      componentType: "number Format",
+      id: uuidv4(),
+    },
+    {
+      componentType: "radio Group",
+      id: uuidv4(),
+    },
+    {
+      componentType: "text Area",
       id: uuidv4(),
     },
     {
@@ -29,26 +53,12 @@ function App() {
       id: uuidv4(),
     },
     {
-      componentType: "number",
-      id: uuidv4(),
-    },
-    {
-      componentType: "select",
-      id: uuidv4(),
-    },
-    {
       componentType: "upload",
       id: uuidv4(),
     },
-    {
-      componentType: "date",
-      id: uuidv4(),
-    },
-    {
-      componentType: "checkbox",
-      id: uuidv4(),
-    },
   ])
+
+  const [options, setoptions] = useState([{ value: "", option: "" }])
 
   const [dropable, setDropable] = useState([])
 
@@ -91,7 +101,7 @@ function App() {
     <DndProvider backend={HTML5Backend}>
       <main className="h-screen p-6 flex gap-4 mx-1 min-w-[650px] bg-">
         <SideBar drag={drag} dropable={dropable} />
-        <BackDrop dropable={dropable} ref={modal} attributes={attributes} />
+        <BackDrop dropable={dropable} ref={modal} attributes={attributes} options={options} />
       </main>
       <Modal ref={warningModal} btnCaption="Close" handleSave={handleSave}>
         <h2 className="text-xl font-bold text-red-700 my-4">Invalid Input</h2>
@@ -102,7 +112,9 @@ function App() {
         <ul>
           <InputLabel ref={userLabel} />
           <InputPlaceHolder ref={userPlaceHolder} />
-          {/* { drag[]. <AddDynamicInputFields/>} */}
+          {/* {drag[3].componentType === "dropdown" ? <AddDynamicInputFields /> : " "} */}
+          {/* <AddOptions options={options} setOptions={setoptions} /> */}
+          <Addpoints options={options} setOptions={setoptions} />
         </ul>
       </Modal>
     </DndProvider>
