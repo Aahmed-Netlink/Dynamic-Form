@@ -1,10 +1,12 @@
+import { memo } from "react";
 import { useDrag } from "react-dnd"
+import { ItemType } from "./ItemType";
 
 //& Component Making Items Dragable And Dropable
-const Elements = ({ item, dropable }) => {
+const Elements = memo(({ item, dropable }) => {
 
     const [{ isDragging }, drag] = useDrag(() => ({
-        type: 'element',
+        type: ItemType.ELEMENT,
         item: { name: item },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult()
@@ -19,17 +21,15 @@ const Elements = ({ item, dropable }) => {
         })
     }), [],)
 
-    console.log(dropable)
-
     return (
         <>
             <li ref={drag} className="bg-slate-500 text-white p-3 capitalize rounded-lg flex flex-row justify-center gap-3">
                 {
-                    item.componentType 
+                    item.componentType
                 }
             </li>
         </>
     )
-}
+})
 
 export default Elements

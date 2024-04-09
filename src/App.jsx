@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from "uuid"
 import Modal from "./Components/DialogModal/Modal";
 import InputLabel from "./Components/InformationComponent/InputLabel";
 import InputPlaceHolder from "./Components/InformationComponent/InputPlaceHolder";
+import AddDynamicInputFields from "./Components/InformationComponent/AddDynamicInputFields";
+import { ItemType } from "./Components/ItemType";
 
 function App() {
 
@@ -55,9 +57,6 @@ function App() {
     placeholder: [],
   })
 
-  console.log(drag)
-  console.log(dropable)
-
   const modal = useRef()
   const warningModal = useRef()
   const userLabel = useRef();
@@ -67,7 +66,7 @@ function App() {
     const enteredLabel = userLabel?.current?.value
     const enteredPlaceHolder = userPlaceHolder?.current?.value
 
-    userLabel === '' ? "" : document.getElementById("id").value = '' ;
+    document.getElementById("id").value = '';
     document.getElementById("id2").value = '';
 
     if (enteredLabel?.trim() === '' && enteredPlaceHolder.trim() === '') {
@@ -86,8 +85,6 @@ function App() {
     )
   }
 
-  let i = 0;
-
   console.log(attributes);
 
   return (
@@ -103,11 +100,9 @@ function App() {
       <Modal ref={modal} btnCaption="Save" handleSave={handleSave}>
         <h2 className="text-xl font-bold text-red-700 my-4">INFO</h2>
         <ul>
-          {/* {drag.componentType === "button" ? "" : <InputLabel ref={userLabel} />} */}
-          {/* {drag.find((i) => { i.componentType === "button" }) ? " " : <InputLabel ref={userLabel} />} */}
-          {userLabel === "" ? "" :<InputLabel ref={userLabel}/>}
-          {/* <p className="text-red-500 m-5">For Button You Can Left Label Field</p> */}
+          <InputLabel ref={userLabel} />
           <InputPlaceHolder ref={userPlaceHolder} />
+          {/* { drag[]. <AddDynamicInputFields/>} */}
         </ul>
       </Modal>
     </DndProvider>

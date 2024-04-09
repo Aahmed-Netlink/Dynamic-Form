@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, memo } from 'react'
 import { useDrop } from 'react-dnd'
 import { UploadOutlined } from '@ant-design/icons';
 import {
@@ -11,11 +11,12 @@ import {
     DatePicker,
     Checkbox,
 } from 'antd';
+import { ItemType } from './ItemType';
 //? Component For Making A Dropable Area For Dragable Items
-const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
+const BackDrop = memo(forwardRef(({ dropable, attributes }, ref) => {
 
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
-        accept: 'element',
+        accept: ItemType.ELEMENT,
         drop: () => (ref.current.open()),
         collect: (monitor) => (
             {
@@ -29,7 +30,7 @@ const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
 
     const props = {
         name: 'file',
-        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+        // action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
         headers: {
             authorization: 'authorization-text',
         },
@@ -46,6 +47,12 @@ const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
     };
 
     const plainOptions = ['Apple', 'Pear', 'Orange'];
+    const option = [
+        { value: 'jack', label: 'Jack' },
+        { value: 'lucy', label: 'Lucy' },
+        { value: 'Yiminghe', label: 'yiminghe' },
+        { value: 'disabled', label: 'Disabled', disabled: true },
+    ]
 
     return (
         <>
@@ -58,7 +65,7 @@ const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
                     <ul className='flex flex-col gap-2 items-center'>
                         {dropable.map((item, i) => (
                             <ul key={i} className=' inline-flex '>
-                                {item.componentType === "button" ? " " :<label className='whitespace-pre text-xl font-semibold capitalize text-slate-900'>
+                                {item.componentType === "button" ? " " : <label className='whitespace-pre text-xl font-semibold capitalize text-slate-900'>
                                     {attributes.label[i]}{"  "}
                                 </label>}
                                 {
@@ -76,19 +83,14 @@ const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
                                                         <Select
                                                             defaultValue="lucy"
                                                             style={{ width: 120 }}
-                                                            options={[
-                                                                { value: 'jack', label: 'Jack' },
-                                                                { value: 'lucy', label: 'Lucy' },
-                                                                { value: 'Yiminghe', label: 'yiminghe' },
-                                                                { value: 'disabled', label: 'Disabled', disabled: true },
-                                                            ]}
+                                                            options={option}
                                                         />
                                                         : item.componentType === "upload" ?
-                                                            <Upload {...props} >
-                                                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                                                            <Upload  >
+                                                                <Button icon={<UploadOutlined />}>{attributes.placeholder[i]}</Button>
                                                             </Upload>
                                                             : item.componentType === "date" ?
-                                                                <DatePicker format={"DD/MM/YY"} placeholder={attributes.placeholder[i]} />
+                                                                <DatePicker format={"DD/MM/YYYY"} placeholder={attributes.placeholder[i]} />
                                                                 : item.componentType === "checkbox" ?
                                                                     <Checkbox.Group options={plainOptions} />
                                                                     : ""
@@ -100,8 +102,7 @@ const BackDrop = forwardRef(({ dropable, attributes }, ref) => {
                 </form>
             </div>
         </>
-
     )
-})
+}))
 
 export default BackDrop
